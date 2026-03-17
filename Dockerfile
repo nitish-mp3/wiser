@@ -7,4 +7,5 @@ COPY wiser_bridge /app
 COPY run.sh /
 
 RUN apk add --no-cache python3 py3-paho-mqtt py3-requests
+RUN chmod +x /run.sh
 CMD ["/run.sh"]
