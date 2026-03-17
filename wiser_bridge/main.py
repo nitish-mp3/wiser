@@ -64,6 +64,7 @@ class BridgeApp:
         self.hub_config = str(config.get("wiser_hub_ip") or "auto")
         self.discovery_endpoints = parse_csv_values(str(config.get("discovery_endpoints") or ""))
         self.debug_discovery = bool(config.get("debug_discovery") or False)
+        self.verify_hub_tls = bool(config.get("verify_hub_tls") or False)
         self.hub: Optional[WiserHub] = None
         self.last_hub_attempt = 0.0
 
@@ -198,6 +199,7 @@ class BridgeApp:
                 hub_ip,
                 discovery_endpoints=self.discovery_endpoints or None,
                 debug_discovery=self.debug_discovery,
+                verify_tls=self.verify_hub_tls,
             )
             _LOGGER.info("Connected to Wiser hub at %s", hub_ip)
 

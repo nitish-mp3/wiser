@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 import requests
+import urllib3
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -29,6 +30,7 @@ class WiserHub:
         retry_delay_s: float = 1.0,
         discovery_endpoints: Optional[List[str]] = None,
         debug_discovery: bool = False,
+        verify_tls: bool = False,
     ) -> None:
         if not hub_ip:
             raise ValueError("wiser_hub_ip is required")
@@ -43,6 +45,7 @@ class WiserHub:
         self.retries = retries
         self.retry_delay_s = retry_delay_s
         self.debug_discovery = debug_discovery
+        self.verify_tls = verify_tls
         self.discovery_endpoints = discovery_endpoints or [
             "/api/devices",
             "/devices",
@@ -54,6 +57,8 @@ class WiserHub:
             "/api/system/devices",
         ]
         self._session = requests.Session()
+        if not self.verify_tls:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     def discover(self) -> List[Device]:
         for endpoint in self.discovery_endpoints:
@@ -239,7 +244,7 @@ class WiserHub:
         for base_url in self.base_urls:
             url = f"{base_url}{endpoint}"
             try:
-                response = self._session.get(url, timeout=self.timeout_s)
+                response = self._session.get(url, timeout=self.timeout_s, verify=self.verify_tls)
                 response.raise_for_status()
                 payload = response.json()
                 if self.debug_discovery:
@@ -261,7 +266,7 @@ class WiserHub:
         for base_url in self.base_urls:
             url = f"{base_url}{endpoint}"
             try:
-                response = self._session.post(url, json=payload, timeout=self.timeout_s)
+                response = self._session.post(url, json=payload, timeout=self.timeout_s, verify=self.verify_tls)
                 response.raise_for_status()
                 return True
             except Exception as exc:
