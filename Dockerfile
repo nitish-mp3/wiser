@@ -6,6 +6,5 @@ WORKDIR /app
 COPY wiser_bridge /app
 COPY run.sh /
 
-RUN pip install --no-cache-dir paho-mqtt requests
-
+RUN python3 -m pip install --no-cache-dir paho-mqtt requests
 CMD ["/run.sh"]
