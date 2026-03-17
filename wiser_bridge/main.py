@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import signal
+import socket
 import sys
 import time
 from typing import Dict, List
@@ -55,7 +56,8 @@ class BridgeApp:
             username=str(config.get("mqtt_user") or "") or None,
             password=str(config.get("mqtt_password") or "") or None,
         )
-        self.hub = WiserHub(str(config["wiser_hub_ip"]))
+        hub_ip = resolve_hub_ip(str(config.get("wiser_hub_ip") or ""))
+        self.hub = WiserHub(hub_ip)
         self.cache = StateCache(STATE_CACHE_PATH)
         self.devices: List[Device] = []
 
@@ -135,12 +137,37 @@ def load_config(path: str) -> Dict[str, object]:
     with open(path, "r", encoding="utf-8") as config_file:
         config = json.load(config_file)
 
-    required_keys = ["wiser_hub_ip", "mqtt_host", "mqtt_port"]
+    required_keys = ["mqtt_host", "mqtt_port"]
     missing = [key for key in required_keys if not config.get(key)]
     if missing:
         raise ValueError(f"Missing required configuration keys: {', '.join(missing)}")
 
     return config
+
+
+def resolve_hub_ip(config_value: str) -> str:
+    value = config_value.strip()
+    if value and value.lower() != "auto":
+        return value
+
+    candidates = [
+        "wiserhub.local",
+        "wiser-hub.local",
+        "wiser.local",
+    ]
+
+    for host in candidates:
+        try:
+            resolved = socket.gethostbyname(host)
+            if resolved:
+                _LOGGER.info("Auto-discovered Wiser hub host %s -> %s", host, resolved)
+                return resolved
+        except Exception:
+            continue
+
+    raise ValueError(
+        "Could not auto-discover Wiser hub IP. Set wiser_hub_ip to the hub LAN IP (for example 192.168.1.50)."
+    )
 
 
 def main() -> int:

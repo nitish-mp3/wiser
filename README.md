@@ -38,7 +38,7 @@ addon/
 ## Configuration
 
 ```yaml
-wiser_hub_ip: "192.168.1.50"
+wiser_hub_ip: "auto"
 mqtt_host: "core-mosquitto"
 mqtt_port: 1883
 mqtt_user: ""
@@ -46,11 +46,11 @@ mqtt_password: ""
 ```
 
 Required:
-- `wiser_hub_ip`
 - `mqtt_host`
 - `mqtt_port`
 
 Optional:
+- `wiser_hub_ip` (`auto` or explicit LAN IP, for example `192.168.1.50`)
 - `mqtt_user`
 - `mqtt_password`
 

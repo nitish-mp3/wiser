@@ -25,7 +25,11 @@ class MQTTClient:
         self.discovery_prefix = discovery_prefix.rstrip("/")
         self.command_callback: Optional[Callable[[str, str], None]] = None
 
-        self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+        self._uses_callback_v2 = hasattr(mqtt, "CallbackAPIVersion")
+        if self._uses_callback_v2:
+            self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+        else:
+            self.client = mqtt.Client()
         self.client.enable_logger(_LOGGER)
         self.client.reconnect_delay_set(min_delay=1, max_delay=30)
 
@@ -101,11 +105,19 @@ class MQTTClient:
         topic = f"{self.base_topic}/bridge/availability"
         self.client.publish(topic, payload=payload, qos=1, retain=True)
 
-    def _on_connect(self, client: mqtt.Client, userdata, flags, reason_code, properties) -> None:
+    def _on_connect(
+        self,
+        client: mqtt.Client,
+        userdata,
+        flags,
+        reason_code,
+        properties=None,
+    ) -> None:
         _LOGGER.info("MQTT connected with reason code: %s", reason_code)
         client.subscribe(f"{self.base_topic}/+/set", qos=1)
 
-    def _on_disconnect(self, client: mqtt.Client, userdata, disconnect_flags, reason_code, properties) -> None:
+    def _on_disconnect(self, client: mqtt.Client, userdata, *args) -> None:
+        reason_code = args[1] if len(args) >= 2 else (args[0] if args else "unknown")
         _LOGGER.warning("MQTT disconnected with reason code: %s", reason_code)
 
     def _on_message(self, client: mqtt.Client, userdata, message: mqtt.MQTTMessage) -> None:
