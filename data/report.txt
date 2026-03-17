@@ -1,0 +1,21 @@
+Protocol determination: Local endpoint responds on HTTPS and WSS(/ws), anonymous REST paths return 404.
+Driver implemented: local+cloud scaffold; local command path uses aioWiserHeatAPI auth first, websocket fallback second, legacy HTTP fallback third.
+Files changed:
+- addon/config.yaml
+- addon/Dockerfile
+- addon/README.md
+- addon/wiser_bridge/main.py
+- addon/wiser_bridge/protocol.py
+- addon/wiser_bridge/drivers/__init__.py
+- addon/wiser_bridge/drivers/wiser_local.py
+- addon/wiser_bridge/drivers/wiser_cloud.py
+- addon/wiser_bridge/tests/__init__.py
+- addon/wiser_bridge/tests/driver_integration_test.py
+Diagnostics generated:
+- addon/data/diagnostics/*.txt
+- addon/data/diagnostics.tar.gz
+Tests:
+- driver_integration_test.py: pass (see test-output.txt)
+Manual input required:
+- wiser_hub_secret is required for authenticated local API path.
+- If unknown, configure cloud_api_base/cloud_access_token/cloud_subscription_key for cloud fallback.

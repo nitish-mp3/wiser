@@ -1,0 +1,18 @@
+Timestamp: 2026-03-17
+
+Source summary:
+1) https://github.com/asantaga/wiserHomeAssistantPlatform
+- Mature HA integration for Wiser/Schneider variants.
+- Uses aioWiserHeatAPI with host/port/secret config flow.
+- Changelog indicates V2 hubs communicate over HTTPS internally.
+
+2) https://exchange.se.com/develop/products/121612/wiser-home-essential-api
+- Official Schneider Wiser Home Essential API product page.
+- Indicates authenticated API model for data/control access.
+
+3) https://community.home-assistant.io/t/wiser-integration/367980
+- Community references point users to dedicated Wiser integration implementation.
+
+Actionable conclusion:
+- Prefer local authenticated driver path using hub secret + port + HTTPS.
+- If local auth cannot be completed, use cloud API fallback requiring user-provided token/subscription key.

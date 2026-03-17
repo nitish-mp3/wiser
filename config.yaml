@@ -1,5 +1,5 @@
 name: Wiser MQTT Bridge
-version: "1.0.9"
+version: "1.1.0"
 slug: wiser_bridge
 description: Production-ready bridge for Schneider Wiser devices to Home Assistant via MQTT
 url: "https://github.com/nitish-mp3/wiser"
@@ -14,11 +14,17 @@ arch:
 
 options:
   wiser_hub_ip: "auto"
+  wiser_hub_port: 443
+  wiser_hub_secret: ""
+  wiser_ws_path: "/ws"
   relay_ids: "relay1,relay2,relay3,relay4"
   relay_name_prefix: "Wiser Relay"
   discovery_endpoints: ""
   debug_discovery: false
   verify_hub_tls: false
+  cloud_api_base: ""
+  cloud_access_token: ""
+  cloud_subscription_key: ""
   mqtt_host: "core-mosquitto"
   mqtt_port: 1883
   mqtt_user: ""
@@ -26,11 +32,17 @@ options:
 
 schema:
   wiser_hub_ip: str
+  wiser_hub_port: int?
+  wiser_hub_secret: password?
+  wiser_ws_path: str?
   relay_ids: str?
   relay_name_prefix: str?
   discovery_endpoints: str?
   debug_discovery: bool?
   verify_hub_tls: bool?
+  cloud_api_base: str?
+  cloud_access_token: password?
+  cloud_subscription_key: password?
   mqtt_host: str
   mqtt_port: int
   mqtt_user: str?

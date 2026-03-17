@@ -39,8 +39,15 @@ addon/
 
 ```yaml
 wiser_hub_ip: "auto"
+wiser_hub_port: 443
+wiser_hub_secret: ""
+wiser_ws_path: "/ws"
 relay_ids: "relay1,relay2,relay3,relay4"
 relay_name_prefix: "Wiser Relay"
+verify_hub_tls: false
+cloud_api_base: ""
+cloud_access_token: ""
+cloud_subscription_key: ""
 mqtt_host: "core-mosquitto"
 mqtt_port: 1883
 mqtt_user: ""
@@ -53,8 +60,13 @@ Required:
 
 Optional:
 - `wiser_hub_ip` (`auto` or explicit LAN IP, for example `192.168.1.50`)
+- `wiser_hub_port` (hub API port; often `443` for newer hubs)
+- `wiser_hub_secret` (hub secret/password used by local authenticated API)
+- `wiser_ws_path` (local websocket path, default `/ws`)
+- `verify_hub_tls` (`false` for self-signed local certs)
 - `relay_ids` (comma-separated IDs shown in Home Assistant, for example `relay1,relay2`)
 - `relay_name_prefix` (friendly name prefix for auto-created entities)
+- `cloud_api_base` / `cloud_access_token` / `cloud_subscription_key` for cloud fallback
 - `mqtt_user`
 - `mqtt_password`
 

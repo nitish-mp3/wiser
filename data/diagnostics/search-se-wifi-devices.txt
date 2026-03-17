@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--[if IE 6]><html class="ie6" xmlns="http://www.w3.org/1999/xhtml"><![endif]-->
+<!--[if IE 7]><html class="lt-ie8 lt-ie9" xmlns="http://www.w3.org/1999/xhtml"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9" xmlns="http://www.w3.org/1999/xhtml"><![endif]-->
+<!--[if gt IE 8]><!--><html xmlns="http://www.w3.org/1999/xhtml"><!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=1" />
+  <meta name="referrer" content="origin" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>se-wifi-devices.local websocket schneider wiser at DuckDuckGo</title>
+  <link title="DuckDuckGo (HTML)" type="application/opensearchdescription+xml" rel="search" href="//duckduckgo.com/opensearch_html_v2.xml" />
+  <link href="//duckduckgo.com/favicon.ico" rel="shortcut icon" />
+  <link rel="icon" href="//duckduckgo.com/favicon.ico" type="image/x-icon" />
+  <link id="icon60" rel="apple-touch-icon" href="//duckduckgo.com/assets/icons/meta/DDG-iOS-icon_60x60.png?v=2"/>
+  <link id="icon76" rel="apple-touch-icon" sizes="76x76" href="//duckduckgo.com/assets/icons/meta/DDG-iOS-icon_76x76.png?v=2"/>
+  <link id="icon120" rel="apple-touch-icon" sizes="120x120" href="//duckduckgo.com/assets/icons/meta/DDG-iOS-icon_120x120.png?v=2"/>
+  <link id="icon152" rel="apple-touch-icon" sizes="152x152" href="//duckduckgo.com/assets/icons/meta/DDG-iOS-icon_152x152.png?v=2"/>
+  <link rel="image_src" href="//duckduckgo.com/assets/icons/meta/DDG-icon_256x256.png">
+  <link rel="stylesheet" media="handheld, all" href="//duckduckgo.com/dist/h.276ddc0c15a4252ea5a2.css" type="text/css"/>
+</head>
+
+<body class="body--html">
+  <a name="top" id="top"></a>
+
+  <form action="/html/" method="post">
+    <input type="text" name="state_hidden" id="state_hidden" />
+  </form>
+
+  <div>
+    <div class="site-wrapper-border"></div>
+
+    <div id="header" class="header cw header--html">
+      <a title="DuckDuckGo" href="/html/" class="header__logo-wrap"></a>
+
+      <form name="x" class="header__form" action="/html/" method="post">
+        <div class="search search--header">
+          <input name="q" autocomplete="off" class="search__input" id="search_form_input_homepage" type="text" value="se-wifi-devices.local websocket schneider wiser" />
+          <input name="b" id="search_button_homepage" class="search__button search__button--html" value="" title="Search" alt="Search" type="submit" />
+        </div>
+
+        
+        
+        
+        
+
+        <div class="frm__select">
+          <select name="kl">
+            
+              <option value="" >All Regions</option>
+            
+              <option value="ar-es" >Argentina</option>
+            
+              <option value="au-en" >Australia</option>
+            
+              <option value="at-de" >Austria</option>
+            
+              <option value="be-fr" >Belgium (fr)</option>
+            
+              <option value="be-nl" >Belgium (nl)</option>
+            
+              <option value="br-pt" >Brazil</option>
+            
+              <option value="bg-bg" >Bulgaria</option>
+            
+              <option value="ca-en" >Canada (en)</option>
+            
+              <option value="ca-fr" >Canada (fr)</option>
+            
+              <option value="ct-ca" >Catalonia</option>
+            
+              <option value="cl-es" >Chile</option>
+            
+              <option value="cn-zh" >China</option>
+            
+              <option value="co-es" >Colombia</option>
+            
+              <option value="hr-hr" >Croatia</option>
+            
+              <option value="cz-cs" >Czech Republic</option>
+            
+              <option value="dk-da" >Denmark</option>
+            
+              <option value="ee-et" >Estonia</option>
+            
+              <option value="fi-fi" >Finland</option>
+            
+              <option value="fr-fr" >France</option>
+            
+              <option value="de-de" >Germany</option>
+            
+              <option value="gr-el" >Greece</option>
+            
+              <option value="hk-tzh" >Hong Kong</option>
+            
+              <option value="hu-hu" >Hungary</option>
+            
+              <option value="is-is" >Iceland</option>
+            
+              <option value="in-en" >India (en)</option>
+            
+              <option value="id-en" >Indonesia (en)</option>
+            
+              <option value="ie-en" >Ireland</option>
+            
+              <option value="il-en" >Israel (en)</option>
+            
+              <option value="it-it" >Italy</option>
+            
+              <option value="jp-jp" >Japan</option>
+            
+              <option value="kr-kr" >Korea</option>
+            
+              <option value="lv-lv" >Latvia</option>
+            
+              <option value="lt-lt" >Lithuania</option>
+            
+              <option value="my-en" >Malaysia (en)</option>
+            
+              <option value="mx-es" >Mexico</option>
+            
+              <option value="nl-nl" >Netherlands</option>
+            
+              <option value="nz-en" >New Zealand</option>
+            
+              <option value="no-no" >Norway</option>
+            
+              <option value="pk-en" >Pakistan (en)</option>
+            
+              <option value="pe-es" >Peru</option>
+            
+              <option value="ph-en" >Philippines (en)</option>
+            
+              <option value="pl-pl" >Poland</option>
+            
+              <option value="pt-pt" >Portugal</option>
+            
+              <option value="ro-ro" >Romania</option>
+            
+              <option value="ru-ru" >Russia</option>
+            
+              <option value="xa-ar" >Saudi Arabia</option>
+            
+              <option value="sg-en" >Singapore</option>
+            
+              <option value="sk-sk" >Slovakia</option>
+            
+              <option value="sl-sl" >Slovenia</option>
+            
+              <option value="za-en" >South Africa</option>
+            
+              <option value="es-ca" >Spain (ca)</option>
+            
+              <option value="es-es" >Spain (es)</option>
+            
+              <option value="se-sv" >Sweden</option>
+            
+              <option value="ch-de" >Switzerland (de)</option>
+            
+              <option value="ch-fr" >Switzerland (fr)</option>
+            
+              <option value="tw-tzh" >Taiwan</option>
+            
+              <option value="th-en" >Thailand (en)</option>
+            
+              <option value="tr-tr" >Turkey</option>
+            
+              <option value="us-en" >US (English)</option>
+            
+              <option value="us-es" >US (Spanish)</option>
+            
+              <option value="ua-uk" >Ukraine</option>
+            
+              <option value="uk-en" >United Kingdom</option>
+            
+              <option value="vn-en" >Vietnam (en)</option>
+            
+          </select>
+        </div>
+
+        <div class="frm__select frm__select--last">
+          <select class="" name="df">
+            
+              <option value="" selected>Any Time</option>
+            
+              <option value="d" >Past Day</option>
+            
+              <option value="w" >Past Week</option>
+            
+              <option value="m" >Past Month</option>
+            
+              <option value="y" >Past Year</option>
+            
+          </select>
+        </div>
+      </form>
+    </div>
+
+    
+
+    
+      <!-- Web results are present -->
+      <div>
+        <div class="serp__results">
+          <div id="links" class="results">
+            
+
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Feg%2Fen%2Fdownload%2Fdocument%2FUGWIFISETUP%2F&amp;rut=803a707817c741c937a919607062710aa1152454b5e55ab5d184448e53eaa630">How to setup your WiFi AP for S520491 and WDE002969 - Schneider Electric</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Feg%2Fen%2Fdownload%2Fdocument%2FUGWIFISETUP%2F&amp;rut=803a707817c741c937a919607062710aa1152454b5e55ab5d184448e53eaa630">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/www.se.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Feg%2Fen%2Fdownload%2Fdocument%2FUGWIFISETUP%2F&amp;rut=803a707817c741c937a919607062710aa1152454b5e55ab5d184448e53eaa630">
+                            www.se.com/eg/en/download/document/UGWIFISETUP/
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Feg%2Fen%2Fdownload%2Fdocument%2FUGWIFISETUP%2F&amp;rut=803a707817c741c937a919607062710aa1152454b5e55ab5d184448e53eaa630">Create your <b>Schneider</b> Electric account today Discover additional documents &amp; tools reserved for our partners. Find and download documentation for up to 100 products at once.</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fwiser_eu%2Fevlink%2Dhome%2Dsmart_device%2Duser%2Dguide_wiser_se%2FEnglish%2FEVlink%2520Home%2520Smart%2520_Wiser_SE_Device%2520user%2520guide.pdf&amp;rut=802ce8b65234d08831c397103f5eb4f0d810c95c489e37b788d99d799bf87bf0"><span class="result__type">PDF</span> EVlink Home Smart Device user guide</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fwiser_eu%2Fevlink%2Dhome%2Dsmart_device%2Duser%2Dguide_wiser_se%2FEnglish%2FEVlink%2520Home%2520Smart%2520_Wiser_SE_Device%2520user%2520guide.pdf&amp;rut=802ce8b65234d08831c397103f5eb4f0d810c95c489e37b788d99d799bf87bf0">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/www.productinfo.schneider-electric.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fwiser_eu%2Fevlink%2Dhome%2Dsmart_device%2Duser%2Dguide_wiser_se%2FEnglish%2FEVlink%2520Home%2520Smart%2520_Wiser_SE_Device%2520user%2520guide.pdf&amp;rut=802ce8b65234d08831c397103f5eb4f0d810c95c489e37b788d99d799bf87bf0">
+                            www.productinfo.schneider-electric.com/wiser_eu/evlink-home-smart_device-user-guide_wiser_se/English/EVlink Home Smart _Wiser_SE_Device user guide.pdf
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fwiser_eu%2Fevlink%2Dhome%2Dsmart_device%2Duser%2Dguide_wiser_se%2FEnglish%2FEVlink%2520Home%2520Smart%2520_Wiser_SE_Device%2520user%2520guide.pdf&amp;rut=802ce8b65234d08831c397103f5eb4f0d810c95c489e37b788d99d799bf87bf0">About the device EVlink Home Smart provides homeowners with an easy and smart charging experience. This charging station is an electrical appliance that supplies electric energy to charge plug-in electric vehicles for indoor and private outdoor areas. The <b>Wiser</b> app for residential energy management enables easy access to monitor and control the charging experience remotely. Schedule your ...</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fcommunity.se.com%2Ft5%2FSchneider%2DElectric%2DWiser%2DForum%2FHub%2Dwifi%2Dor%2Dnetwork%2Drequirements%2Ftd%2Dp%2F498271&amp;rut=d1bb5bb080cc382f453a3d447bb2ed5f014fc10f5783aeca1609872c2edd07b2">Solved: Hub wifi or network requirements - Schneider Electric Community</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fcommunity.se.com%2Ft5%2FSchneider%2DElectric%2DWiser%2DForum%2FHub%2Dwifi%2Dor%2Dnetwork%2Drequirements%2Ftd%2Dp%2F498271&amp;rut=d1bb5bb080cc382f453a3d447bb2ed5f014fc10f5783aeca1609872c2edd07b2">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/community.se.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fcommunity.se.com%2Ft5%2FSchneider%2DElectric%2DWiser%2DForum%2FHub%2Dwifi%2Dor%2Dnetwork%2Drequirements%2Ftd%2Dp%2F498271&amp;rut=d1bb5bb080cc382f453a3d447bb2ed5f014fc10f5783aeca1609872c2edd07b2">
+                            community.se.com/t5/Schneider-Electric-Wiser-Forum/Hub-wifi-or-network-requirements/td-p/498271
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fcommunity.se.com%2Ft5%2FSchneider%2DElectric%2DWiser%2DForum%2FHub%2Dwifi%2Dor%2Dnetwork%2Drequirements%2Ftd%2Dp%2F498271&amp;rut=d1bb5bb080cc382f453a3d447bb2ed5f014fc10f5783aeca1609872c2edd07b2">Hello, I bought a used Gen1 hub, and was unable to get it connected to the home <b>wifi</b> (the app connected to the hub during init phase, but after configuring the <b>wifi</b> home parameters, it waited for a while and then said unable to reach the hub). I was not sure of the issue and bought a Gen2 hub an...</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhomeautomation%2Fcomments%2Fyw8b1u%2Fany_experiences_you_can_share_with_the_wiser%2F&amp;rut=968fd3f9d6109df3f5bd8db526780f2f4e019f255ba17e372e7b7b858daec506">Any experiences you can share with the Wiser system from Schneider ...</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhomeautomation%2Fcomments%2Fyw8b1u%2Fany_experiences_you_can_share_with_the_wiser%2F&amp;rut=968fd3f9d6109df3f5bd8db526780f2f4e019f255ba17e372e7b7b858daec506">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/www.reddit.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhomeautomation%2Fcomments%2Fyw8b1u%2Fany_experiences_you_can_share_with_the_wiser%2F&amp;rut=968fd3f9d6109df3f5bd8db526780f2f4e019f255ba17e372e7b7b858daec506">
+                            www.reddit.com/r/homeautomation/comments/yw8b1u/any_experiences_you_can_share_with_the_wiser/
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhomeautomation%2Fcomments%2Fyw8b1u%2Fany_experiences_you_can_share_with_the_wiser%2F&amp;rut=968fd3f9d6109df3f5bd8db526780f2f4e019f255ba17e372e7b7b858daec506">See here about how I set up Clipsal <b>Wiser</b> with HomeKit/HA/etc and my overall thoughts And here is work in progress on OTA updates for Clipsal/<b>Schneider</b> Electric <b>Wiser</b> Only thing worth adding is that they&#x27;re promising Matter support (but they promised HomeKit and never delivered, so don&#x27;t hold your breath).</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fpdl%2Fviewer%3Fdocidentity%3DDocumentTypeProductCategoryRangeNam%2D7E636238%26lang%3Den%26extension%3Dxml%26manualidentity%3DDocumentTypeProductCategoryRangeNam%2D7E636238&amp;rut=a23fa0a4ef5538b4d563a9741418442dd1cfb82814e6a7a01993f43f171d8577">Wiser™ - System user guide - PDL Portal - Schneider Electric</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fpdl%2Fviewer%3Fdocidentity%3DDocumentTypeProductCategoryRangeNam%2D7E636238%26lang%3Den%26extension%3Dxml%26manualidentity%3DDocumentTypeProductCategoryRangeNam%2D7E636238&amp;rut=a23fa0a4ef5538b4d563a9741418442dd1cfb82814e6a7a01993f43f171d8577">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/www.productinfo.schneider-electric.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fpdl%2Fviewer%3Fdocidentity%3DDocumentTypeProductCategoryRangeNam%2D7E636238%26lang%3Den%26extension%3Dxml%26manualidentity%3DDocumentTypeProductCategoryRangeNam%2D7E636238&amp;rut=a23fa0a4ef5538b4d563a9741418442dd1cfb82814e6a7a01993f43f171d8577">
+                            www.productinfo.schneider-electric.com/pdl/viewer?docidentity=DocumentTypeProductCategoryRangeNam-7E636238&amp;lang=en&amp;extension=xml&amp;manualidentity=DocumentTypeProductCategoryRangeNam-7E636238
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fpdl%2Fviewer%3Fdocidentity%3DDocumentTypeProductCategoryRangeNam%2D7E636238%26lang%3Den%26extension%3Dxml%26manualidentity%3DDocumentTypeProductCategoryRangeNam%2D7E636238&amp;rut=a23fa0a4ef5538b4d563a9741418442dd1cfb82814e6a7a01993f43f171d8577">Commissioning instructions for the <b>Wiser</b> system, devices and app. 05/2023 Show QR code for this page</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Fww%2Fen%2Fresidential%2Fsmart%2Dhome%2Fwiser%2Fsupport%2F&amp;rut=c98215bb8b111db1ff01d49663634919ea8722b0c628b27cad029c63c252a04f">Help and FAQ for Wiser Smart Home Control | Schneider Electric</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Fww%2Fen%2Fresidential%2Fsmart%2Dhome%2Fwiser%2Fsupport%2F&amp;rut=c98215bb8b111db1ff01d49663634919ea8722b0c628b27cad029c63c252a04f">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/www.se.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Fww%2Fen%2Fresidential%2Fsmart%2Dhome%2Fwiser%2Fsupport%2F&amp;rut=c98215bb8b111db1ff01d49663634919ea8722b0c628b27cad029c63c252a04f">
+                            www.se.com/ww/en/residential/smart-home/wiser/support/
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Fww%2Fen%2Fresidential%2Fsmart%2Dhome%2Fwiser%2Fsupport%2F&amp;rut=c98215bb8b111db1ff01d49663634919ea8722b0c628b27cad029c63c252a04f">Read frequently asked questions (FAQ) and get support on how to install, how to set up or use all connected <b>Wiser</b> products and the <b>Wiser</b> App.</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fwiser_eu%2Fexxact%2Dconnected%2Dwireless%2Dswitch%2D1%2Dgang%2D2%2Dgang_wiser_se_device_user_guide%2FEnglish%2FExxact%2520%25E2%2580%2593%2520Connected%2520Wireless%2520Switch%25201%2Dgang_2%2Dgang_Wiser_SE_Device_user_guide_0000940980.xml%2F%24%2FExxact%2DConnectedWirelessSwitch1%2Dgang_2%2DgangCPT_0000940970&amp;rut=1f580bb464bfddf6d1f087f0f72455f85052dcf278885fe6c611597ed3573f66">Exxact - Connected Wireless Switch 1-gang/2-gang - Wiser Guides (EU)</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fwiser_eu%2Fexxact%2Dconnected%2Dwireless%2Dswitch%2D1%2Dgang%2D2%2Dgang_wiser_se_device_user_guide%2FEnglish%2FExxact%2520%25E2%2580%2593%2520Connected%2520Wireless%2520Switch%25201%2Dgang_2%2Dgang_Wiser_SE_Device_user_guide_0000940980.xml%2F%24%2FExxact%2DConnectedWirelessSwitch1%2Dgang_2%2DgangCPT_0000940970&amp;rut=1f580bb464bfddf6d1f087f0f72455f85052dcf278885fe6c611597ed3573f66">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/www.productinfo.schneider-electric.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fwiser_eu%2Fexxact%2Dconnected%2Dwireless%2Dswitch%2D1%2Dgang%2D2%2Dgang_wiser_se_device_user_guide%2FEnglish%2FExxact%2520%25E2%2580%2593%2520Connected%2520Wireless%2520Switch%25201%2Dgang_2%2Dgang_Wiser_SE_Device_user_guide_0000940980.xml%2F%24%2FExxact%2DConnectedWirelessSwitch1%2Dgang_2%2DgangCPT_0000940970&amp;rut=1f580bb464bfddf6d1f087f0f72455f85052dcf278885fe6c611597ed3573f66">
+                            www.productinfo.schneider-electric.com/wiser_eu/exxact-connected-wireless-switch-1-gang-2-gang_wiser_se_device_user_guide/English/Exxact – Connected Wireless Switch 1-gang_2-gang_Wiser_SE_Device_user_guide_0000940980.xml/$/Exxact-ConnectedWirelessSwitch1-gang_2-gangCPT_0000940970
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fwiser_eu%2Fexxact%2Dconnected%2Dwireless%2Dswitch%2D1%2Dgang%2D2%2Dgang_wiser_se_device_user_guide%2FEnglish%2FExxact%2520%25E2%2580%2593%2520Connected%2520Wireless%2520Switch%25201%2Dgang_2%2Dgang_Wiser_SE_Device_user_guide_0000940980.xml%2F%24%2FExxact%2DConnectedWirelessSwitch1%2Dgang_2%2DgangCPT_0000940970&amp;rut=1f580bb464bfddf6d1f087f0f72455f85052dcf278885fe6c611597ed3573f66">The Connected Wireless Switch 1-gang/2-gang (hereinafter referred to as Wireless Switch / Freelocate Switch) is a battery-powered wireless switch that is used to control a group of Zigbee devices (such as light and shutter) within the same Zigbee network.</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fclipsal%2Fclipsal%2Dportal%2Dwiser%2Dsystem%2Duser%2Dguide%2FEnglish%2FWiser%2520Pacific%2520System%2520user%2520Guide%2520Clipsal%2520(BOOKMAP)_0000507270.xml%2F%24%2FOverviewoftheWisersystemAPACCPT_0000344976&amp;rut=42605e98eec36e209a0c3bc1e6b77ee17d3826b39f14df5f2fdd5fdd9e668374">Overview of the Wiser™ system - Clipsal Portal</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fclipsal%2Fclipsal%2Dportal%2Dwiser%2Dsystem%2Duser%2Dguide%2FEnglish%2FWiser%2520Pacific%2520System%2520user%2520Guide%2520Clipsal%2520(BOOKMAP)_0000507270.xml%2F%24%2FOverviewoftheWisersystemAPACCPT_0000344976&amp;rut=42605e98eec36e209a0c3bc1e6b77ee17d3826b39f14df5f2fdd5fdd9e668374">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/www.productinfo.schneider-electric.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fclipsal%2Fclipsal%2Dportal%2Dwiser%2Dsystem%2Duser%2Dguide%2FEnglish%2FWiser%2520Pacific%2520System%2520user%2520Guide%2520Clipsal%2520(BOOKMAP)_0000507270.xml%2F%24%2FOverviewoftheWisersystemAPACCPT_0000344976&amp;rut=42605e98eec36e209a0c3bc1e6b77ee17d3826b39f14df5f2fdd5fdd9e668374">
+                            www.productinfo.schneider-electric.com/clipsal/clipsal-portal-wiser-system-user-guide/English/Wiser Pacific System user Guide Clipsal (BOOKMAP)_0000507270.xml/$/OverviewoftheWisersystemAPACCPT_0000344976
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.productinfo.schneider%2Delectric.com%2Fclipsal%2Fclipsal%2Dportal%2Dwiser%2Dsystem%2Duser%2Dguide%2FEnglish%2FWiser%2520Pacific%2520System%2520user%2520Guide%2520Clipsal%2520(BOOKMAP)_0000507270.xml%2F%24%2FOverviewoftheWisersystemAPACCPT_0000344976&amp;rut=42605e98eec36e209a0c3bc1e6b77ee17d3826b39f14df5f2fdd5fdd9e668374">Use the <b>Wiser</b> by <b>SE</b> app to set up the <b>Wiser</b> system, control <b>Wiser</b> devices and receive notifications. With a personal account and the <b>Wiser</b> by <b>SE</b> app on a mobile phone, users can control <b>Wiser</b> devices in their home from any location where internet is available for both mobile phone and the <b>Wiser</b> Hub.</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Fng%2Fen%2Fdownload%2Fdocument%2FUGWIFISETUP%2F&amp;rut=ff971ffb50dd8e93d6e6eddd05466cd21bf44cb8b69c18feea27c7c97cf8dd38">How to setup your WiFi AP for S520491 and WDE002969 - Schneider Electric</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Fng%2Fen%2Fdownload%2Fdocument%2FUGWIFISETUP%2F&amp;rut=ff971ffb50dd8e93d6e6eddd05466cd21bf44cb8b69c18feea27c7c97cf8dd38">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/www.se.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Fng%2Fen%2Fdownload%2Fdocument%2FUGWIFISETUP%2F&amp;rut=ff971ffb50dd8e93d6e6eddd05466cd21bf44cb8b69c18feea27c7c97cf8dd38">
+                            www.se.com/ng/en/download/document/UGWIFISETUP/
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.se.com%2Fng%2Fen%2Fdownload%2Fdocument%2FUGWIFISETUP%2F&amp;rut=ff971ffb50dd8e93d6e6eddd05466cd21bf44cb8b69c18feea27c7c97cf8dd38">Setup the <b>WiFi</b> AP by using HTTPS://SELOGIN.NET for S520491 ODACE WIFI5 ACCESS POINT WITH RJ45 WHITE and WDE002969 EXXACT WIFI5 ACCESS POINT WITH RJ45 WHITE</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+              
+                <div class="result results_links results_links_deep web-result ">
+                  <div class="links_main links_deep result__body"> <!-- This is the visible part -->
+                    
+                      <h2 class="result__title">
+                        <a rel="nofollow" class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fiportal2.schneider%2Delectric.com%2FContents%2Fdocs%2FIG%2DSE7000%2DVWGEPP1045%2DA4.PDF&amp;rut=ec54a60abf4c21ebf4a5ce6e448d5584253da1c8ecb531c5dd6daff49c45a12d"><span class="result__type">PDF</span> Wireless Integration Manual - Schneider Electric</a>
+                      </h2>
+
+                    
+
+                    
+                      <div class="result__extras">
+                        <div class="result__extras__url">
+                          <span class="result__icon">
+                            <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fiportal2.schneider%2Delectric.com%2FContents%2Fdocs%2FIG%2DSE7000%2DVWGEPP1045%2DA4.PDF&amp;rut=ec54a60abf4c21ebf4a5ce6e448d5584253da1c8ecb531c5dd6daff49c45a12d">
+                              <img class="result__icon__img" width="16" height="16" alt="" src="//external-content.duckduckgo.com/ip3/iportal2.schneider-electric.com.ico" name="i15" />
+                            </a>
+                          </span>
+                          <a class="result__url" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fiportal2.schneider%2Delectric.com%2FContents%2Fdocs%2FIG%2DSE7000%2DVWGEPP1045%2DA4.PDF&amp;rut=ec54a60abf4c21ebf4a5ce6e448d5584253da1c8ecb531c5dd6daff49c45a12d">
+                            iportal2.schneider-electric.com/Contents/docs/IG-SE7000-VWGEPP1045-A4.PDF
+                          </a>
+                          
+                        </div>
+                      </div>
+                    
+
+                    
+                      
+                        <a class="result__snippet" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fiportal2.schneider%2Delectric.com%2FContents%2Fdocs%2FIG%2DSE7000%2DVWGEPP1045%2DA4.PDF&amp;rut=ec54a60abf4c21ebf4a5ce6e448d5584253da1c8ecb531c5dd6daff49c45a12d">Although <b>Schneider</b>-Electric has taken many precautions in assuring the robustness of the SE7000 series wireless controller product line and associated network access point (COORDINATOR&#x27;s with wireless option card) please note; future application of additional wireless devices utilizing the same or similar channels and / or frequencies may ...</a>
+                      
+                    
+
+                    <div class="clear"></div>
+                  </div>
+                </div>
+              
+            
+
+            
+              
+              
+                <div class="nav-link">
+                  <form action="/html/" method="post">
+                    <input type="submit" class='btn btn--alt' value="Next" />
+                    <input type="hidden" name="q" value="se-wifi-devices.local websocket schneider wiser" />
+                    <input type="hidden" name="s" value="10" />
+                    <input type="hidden" name="nextParams" value="" />
+                    <input type="hidden" name="v" value="l" />
+                    <input type="hidden" name="o" value="json" />
+                    <input type="hidden" name="dc" value="11" />
+                    <input type="hidden" name="api" value="d.js" />
+                    <input type="hidden" name="vqd" value="4-312388099563146632963464945700924161316" />
+
+                    
+                    
+                    
+                      <input name="kl" value="wt-wt" type="hidden" />
+                    
+                    
+                    
+                    
+                  </form>
+                </div>
+              
+            
+
+            <div class="feedback-btn">
+              <a rel="nofollow" href="//duckduckgo.com/feedback.html" target="_new">Feedback</a>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div> <!-- links wrapper //-->
+    
+  </div>
+
+  <div id="bottom_spacing2"></div>
+
+  
+    <img src="//duckduckgo.com/t/sl_h"/>
+  
+</body>
+</html>
