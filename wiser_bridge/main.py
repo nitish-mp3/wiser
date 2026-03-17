@@ -7,7 +7,10 @@ import signal
 import socket
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List
+
+import requests
 
 from mqtt import MQTTClient
 from protocol import Device, WiserHub
@@ -159,15 +162,104 @@ def resolve_hub_ip(config_value: str) -> str:
     for host in candidates:
         try:
             resolved = socket.gethostbyname(host)
-            if resolved:
+            if resolved and _looks_like_wiser_hub(resolved):
                 _LOGGER.info("Auto-discovered Wiser hub host %s -> %s", host, resolved)
                 return resolved
         except Exception:
             continue
 
+    probed = _discover_hub_on_lan()
+    if probed:
+        _LOGGER.info("Auto-discovered Wiser hub on LAN: %s", probed)
+        return probed
+
     raise ValueError(
         "Could not auto-discover Wiser hub IP. Set wiser_hub_ip to the hub LAN IP (for example 192.168.1.50)."
     )
+
+
+def _looks_like_wiser_hub(ip: str) -> bool:
+    endpoints = ["/api/devices", "/devices", "/api/v1/devices"]
+    for endpoint in endpoints:
+        try:
+            response = requests.get(f"http://{ip}{endpoint}", timeout=1.0)
+            if response.status_code >= 400:
+                continue
+
+            data = response.json()
+            if isinstance(data, list):
+                return True
+            if isinstance(data, dict):
+                if isinstance(data.get("devices"), list):
+                    return True
+                if "id" in data and any(k in data for k in ("state", "value", "type")):
+                    return True
+        except Exception:
+            continue
+    return False
+
+
+def _discover_hub_on_lan() -> str:
+    local_ip = _get_local_ip()
+    if not local_ip:
+        return ""
+
+    subnet_prefix = ".".join(local_ip.split(".")[:3])
+    candidates = []
+
+    candidates.extend(_read_arp_ips(prefix=subnet_prefix))
+
+    for host in range(2, 255):
+        ip = f"{subnet_prefix}.{host}"
+        if ip == local_ip:
+            continue
+        candidates.append(ip)
+
+    ordered_candidates = list(dict.fromkeys(candidates))
+
+    with ThreadPoolExecutor(max_workers=32) as pool:
+        futures = {pool.submit(_looks_like_wiser_hub, ip): ip for ip in ordered_candidates}
+        for future in as_completed(futures):
+            ip = futures[future]
+            try:
+                if future.result():
+                    return ip
+            except Exception:
+                continue
+
+    return ""
+
+
+def _get_local_ip() -> str:
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.connect(("1.1.1.1", 53))
+        ip = sock.getsockname()[0]
+        sock.close()
+        return ip
+    except Exception:
+        return ""
+
+
+def _read_arp_ips(prefix: str) -> List[str]:
+    arp_path = "/proc/net/arp"
+    if not os.path.exists(arp_path):
+        return []
+
+    discovered: List[str] = []
+    try:
+        with open(arp_path, "r", encoding="utf-8") as arp_file:
+            lines = arp_file.readlines()[1:]
+        for line in lines:
+            parts = line.split()
+            if not parts:
+                continue
+            ip = parts[0]
+            if ip.startswith(prefix + "."):
+                discovered.append(ip)
+    except Exception:
+        return []
+    return discovered
 
 
 def main() -> int:
