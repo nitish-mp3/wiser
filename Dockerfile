@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base-python:3.11
+ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:latest
 FROM ${BUILD_FROM}
 
 WORKDIR /app
@@ -6,5 +6,5 @@ WORKDIR /app
 COPY wiser_bridge /app
 COPY run.sh /
 
-RUN python3 -m pip install --no-cache-dir paho-mqtt requests
+RUN apk add --no-cache python3 py3-paho-mqtt py3-requests
 CMD ["/run.sh"]
