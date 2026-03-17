@@ -1,5 +1,5 @@
 name: Wiser MQTT Bridge
-version: "1.0.8"
+version: "1.0.9"
 slug: wiser_bridge
 description: Production-ready bridge for Schneider Wiser devices to Home Assistant via MQTT
 url: "https://github.com/nitish-mp3/wiser"
