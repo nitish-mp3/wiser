@@ -31,14 +31,28 @@ class WiserHub:
         if not hub_ip:
             raise ValueError("wiser_hub_ip is required")
 
-        self.base_url = f"http://{hub_ip.strip()}"
+        raw_hub = hub_ip.strip().rstrip("/")
+        if raw_hub.startswith("http://") or raw_hub.startswith("https://"):
+            self.base_urls = [raw_hub]
+        else:
+            self.base_urls = [f"http://{raw_hub}", f"https://{raw_hub}"]
+
         self.timeout_s = timeout_s
         self.retries = retries
         self.retry_delay_s = retry_delay_s
         self._session = requests.Session()
 
     def discover(self) -> List[Device]:
-        endpoints = ["/api/devices", "/devices", "/api/v1/devices"]
+        endpoints = [
+            "/api/devices",
+            "/devices",
+            "/api/v1/devices",
+            "/api/v2/devices",
+            "/gateway/devices",
+            "/rest/devices",
+            "/api/home/devices",
+            "/api/system/devices",
+        ]
 
         for endpoint in endpoints:
             payload = self._get_json(endpoint)
@@ -50,7 +64,7 @@ class WiserHub:
                 _LOGGER.info("Discovered %s devices from %s", len(devices), endpoint)
                 return devices
 
-        _LOGGER.warning("No devices discovered from Wiser hub")
+        _LOGGER.warning("No devices discovered from Wiser hub across known endpoints")
         return []
 
     def send_command(self, device_id: str, state: str) -> bool:
@@ -103,17 +117,8 @@ class WiserHub:
     def _extract_state_map(self, payload: Any) -> Dict[str, str]:
         state_map: Dict[str, str] = {}
 
-        if isinstance(payload, list):
-            for item in payload:
-                self._extract_state_from_item(item, state_map)
-            return state_map
-
-        if isinstance(payload, dict):
-            if "devices" in payload and isinstance(payload["devices"], list):
-                for item in payload["devices"]:
-                    self._extract_state_from_item(item, state_map)
-            else:
-                self._extract_state_from_item(payload, state_map)
+        for item in self._iter_candidate_objects(payload):
+            self._extract_state_from_item(item, state_map)
 
         return state_map
 
@@ -121,44 +126,101 @@ class WiserHub:
         if not isinstance(item, dict):
             return
 
-        device_id = item.get("id") or item.get("device_id") or item.get("name")
+        device_id = self._extract_identifier(item)
         if not device_id:
             return
 
-        raw_state = item.get("state")
-        if raw_state is None:
-            raw_state = item.get("value")
+        raw_state = self._extract_raw_state(item)
 
         normalized = self._normalize_state(raw_state)
         if normalized:
-            state_map[str(device_id)] = normalized
+            state_map[device_id] = normalized
 
     def _parse_device_list(self, payload: Any) -> List[Device]:
         devices: List[Device] = []
 
-        if isinstance(payload, dict) and isinstance(payload.get("devices"), list):
-            payload = payload["devices"]
-
-        if not isinstance(payload, list):
-            return devices
-
-        for item in payload:
+        for item in self._iter_candidate_objects(payload):
             if not isinstance(item, dict):
                 continue
 
-            device_type = str(item.get("type", "switch")).lower()
-            if device_type not in {"switch", "relay"}:
+            if not self._is_switch_like(item):
                 continue
 
-            device_id = item.get("id") or item.get("device_id") or item.get("name")
+            device_id = self._extract_identifier(item)
             if not device_id:
                 continue
 
-            name = str(item.get("name") or f"Wiser {device_id}")
-            state = self._normalize_state(item.get("state")) or "OFF"
-            devices.append(Device(id=str(device_id), type="switch", state=state, name=name))
+            name = self._extract_name(item, device_id)
+            state = self._normalize_state(self._extract_raw_state(item)) or "OFF"
+            devices.append(Device(id=device_id, type="switch", state=state, name=name))
 
-        return devices
+        # De-duplicate by id while keeping first-seen order.
+        deduped: List[Device] = []
+        seen_ids = set()
+        for device in devices:
+            if device.id in seen_ids:
+                continue
+            seen_ids.add(device.id)
+            deduped.append(device)
+
+        return deduped
+
+    def _iter_candidate_objects(self, payload: Any) -> List[Dict[str, Any]]:
+        candidates: List[Dict[str, Any]] = []
+
+        def walk(node: Any) -> None:
+            if isinstance(node, dict):
+                candidates.append(node)
+                for value in node.values():
+                    walk(value)
+            elif isinstance(node, list):
+                for item in node:
+                    walk(item)
+
+        walk(payload)
+        return candidates
+
+    def _is_switch_like(self, item: Dict[str, Any]) -> bool:
+        text_fields = [
+            item.get("type"),
+            item.get("device_type"),
+            item.get("kind"),
+            item.get("category"),
+            item.get("product"),
+            item.get("model"),
+            item.get("name"),
+        ]
+        joined = " ".join(str(field).lower() for field in text_fields if field is not None)
+
+        switch_tokens = ["switch", "relay", "socket", "outlet", "plug"]
+        if any(token in joined for token in switch_tokens):
+            return True
+
+        # If shape looks like controllable stateful device, allow it.
+        has_id = bool(self._extract_identifier(item))
+        has_state = self._extract_raw_state(item) is not None
+        return has_id and has_state
+
+    def _extract_identifier(self, item: Dict[str, Any]) -> str:
+        keys = ["id", "device_id", "serial", "serial_number", "uuid", "uid", "name"]
+        for key in keys:
+            value = item.get(key)
+            if value is not None and str(value).strip():
+                return str(value).strip()
+        return ""
+
+    def _extract_name(self, item: Dict[str, Any], fallback_id: str) -> str:
+        for key in ["name", "label", "display_name", "friendly_name"]:
+            value = item.get(key)
+            if value is not None and str(value).strip():
+                return str(value).strip()
+        return f"Wiser {fallback_id}"
+
+    def _extract_raw_state(self, item: Dict[str, Any]) -> Any:
+        for key in ["state", "value", "status", "on", "is_on", "power"]:
+            if key in item:
+                return item.get(key)
+        return None
 
     def _normalize_state(self, raw_state: Any) -> Optional[str]:
         if raw_state is None:
@@ -172,21 +234,25 @@ class WiserHub:
         return None
 
     def _get_json(self, endpoint: str) -> Optional[Any]:
-        url = f"{self.base_url}{endpoint}"
-        try:
-            response = self._session.get(url, timeout=self.timeout_s)
-            response.raise_for_status()
-            return response.json()
-        except Exception as exc:
-            _LOGGER.debug("GET %s failed: %s", url, exc)
-            return None
+        for base_url in self.base_urls:
+            url = f"{base_url}{endpoint}"
+            try:
+                response = self._session.get(url, timeout=self.timeout_s)
+                response.raise_for_status()
+                return response.json()
+            except Exception as exc:
+                _LOGGER.debug("GET %s failed: %s", url, exc)
+                continue
+        return None
 
     def _post_json(self, endpoint: str, payload: Dict[str, Any]) -> bool:
-        url = f"{self.base_url}{endpoint}"
-        try:
-            response = self._session.post(url, json=payload, timeout=self.timeout_s)
-            response.raise_for_status()
-            return True
-        except Exception as exc:
-            _LOGGER.debug("POST %s failed payload=%s error=%s", url, payload, exc)
-            return False
+        for base_url in self.base_urls:
+            url = f"{base_url}{endpoint}"
+            try:
+                response = self._session.post(url, json=payload, timeout=self.timeout_s)
+                response.raise_for_status()
+                return True
+            except Exception as exc:
+                _LOGGER.debug("POST %s failed payload=%s error=%s", url, payload, exc)
+                continue
+        return False

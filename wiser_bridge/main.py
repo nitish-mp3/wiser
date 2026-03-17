@@ -108,9 +108,7 @@ class BridgeApp:
 
         self.devices = self._build_manual_devices()
 
-        if self._ensure_hub_connected(force=True):
-            discovered = self.hub.discover() if self.hub else []
-            self._merge_devices(discovered)
+        self._ensure_hub_connected(force=True)
 
         if not self.devices:
             self.devices = self._default_devices()
@@ -285,9 +283,15 @@ def parse_manual_device_ids(raw: str) -> List[str]:
         clean = token.strip()
         if not clean:
             continue
-        parsed.append(clean)
+        parsed.append(_sanitize_device_id(clean))
 
     return parsed or [f"relay{i}" for i in range(1, 5)]
+
+
+def _sanitize_device_id(raw_id: str) -> str:
+    safe = raw_id.strip().lower().replace(" ", "_")
+    safe = "".join(ch for ch in safe if ch.isalnum() or ch in {"_", "-"})
+    return safe or "relay"
 
 
 def resolve_hub_ip(config_value: str) -> str:
