@@ -62,6 +62,8 @@ class BridgeApp:
             password=str(config.get("mqtt_password") or "") or None,
         )
         self.hub_config = str(config.get("wiser_hub_ip") or "auto")
+        self.discovery_endpoints = parse_csv_values(str(config.get("discovery_endpoints") or ""))
+        self.debug_discovery = bool(config.get("debug_discovery") or False)
         self.hub: Optional[WiserHub] = None
         self.last_hub_attempt = 0.0
 
@@ -192,7 +194,11 @@ class BridgeApp:
         self.last_hub_attempt = now
         try:
             hub_ip = resolve_hub_ip(self.hub_config)
-            self.hub = WiserHub(hub_ip)
+            self.hub = WiserHub(
+                hub_ip,
+                discovery_endpoints=self.discovery_endpoints or None,
+                debug_discovery=self.debug_discovery,
+            )
             _LOGGER.info("Connected to Wiser hub at %s", hub_ip)
 
             discovered = self.hub.discover()
@@ -292,6 +298,15 @@ def _sanitize_device_id(raw_id: str) -> str:
     safe = raw_id.strip().lower().replace(" ", "_")
     safe = "".join(ch for ch in safe if ch.isalnum() or ch in {"_", "-"})
     return safe or "relay"
+
+
+def parse_csv_values(raw: str) -> List[str]:
+    values: List[str] = []
+    for token in raw.split(","):
+        clean = token.strip()
+        if clean:
+            values.append(clean)
+    return values
 
 
 def resolve_hub_ip(config_value: str) -> str:

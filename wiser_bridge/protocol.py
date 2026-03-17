@@ -27,6 +27,8 @@ class WiserHub:
         timeout_s: float = 5.0,
         retries: int = 3,
         retry_delay_s: float = 1.0,
+        discovery_endpoints: Optional[List[str]] = None,
+        debug_discovery: bool = False,
     ) -> None:
         if not hub_ip:
             raise ValueError("wiser_hub_ip is required")
@@ -40,10 +42,8 @@ class WiserHub:
         self.timeout_s = timeout_s
         self.retries = retries
         self.retry_delay_s = retry_delay_s
-        self._session = requests.Session()
-
-    def discover(self) -> List[Device]:
-        endpoints = [
+        self.debug_discovery = debug_discovery
+        self.discovery_endpoints = discovery_endpoints or [
             "/api/devices",
             "/devices",
             "/api/v1/devices",
@@ -53,8 +53,10 @@ class WiserHub:
             "/api/home/devices",
             "/api/system/devices",
         ]
+        self._session = requests.Session()
 
-        for endpoint in endpoints:
+    def discover(self) -> List[Device]:
+        for endpoint in self.discovery_endpoints:
             payload = self._get_json(endpoint)
             if payload is None:
                 continue
@@ -239,8 +241,18 @@ class WiserHub:
             try:
                 response = self._session.get(url, timeout=self.timeout_s)
                 response.raise_for_status()
-                return response.json()
+                payload = response.json()
+                if self.debug_discovery:
+                    _LOGGER.info(
+                        "Discovery probe OK %s status=%s body=%s",
+                        url,
+                        response.status_code,
+                        self._summarize_payload(payload),
+                    )
+                return payload
             except Exception as exc:
+                if self.debug_discovery:
+                    _LOGGER.info("Discovery probe failed %s error=%s", url, exc)
                 _LOGGER.debug("GET %s failed: %s", url, exc)
                 continue
         return None
@@ -256,3 +268,9 @@ class WiserHub:
                 _LOGGER.debug("POST %s failed payload=%s error=%s", url, payload, exc)
                 continue
         return False
+
+    def _summarize_payload(self, payload: Any) -> str:
+        text = repr(payload)
+        if len(text) > 400:
+            return text[:400] + "..."
+        return text
