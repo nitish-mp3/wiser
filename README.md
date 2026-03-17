@@ -39,6 +39,8 @@ addon/
 
 ```yaml
 wiser_hub_ip: "auto"
+relay_ids: "relay1,relay2,relay3,relay4"
+relay_name_prefix: "Wiser Relay"
 mqtt_host: "core-mosquitto"
 mqtt_port: 1883
 mqtt_user: ""
@@ -51,8 +53,20 @@ Required:
 
 Optional:
 - `wiser_hub_ip` (`auto` or explicit LAN IP, for example `192.168.1.50`)
+- `relay_ids` (comma-separated IDs shown in Home Assistant, for example `relay1,relay2`)
+- `relay_name_prefix` (friendly name prefix for auto-created entities)
 - `mqtt_user`
 - `mqtt_password`
+
+## Where to add devices
+
+Use the add-on options page as the UI:
+
+1. Open the add-on in Home Assistant.
+2. Edit `relay_ids` with a comma-separated list.
+3. Restart the add-on.
+
+The bridge publishes MQTT discovery entries for those IDs even if hub auto-discovery is temporarily unavailable.
 
 ## MQTT topics
 

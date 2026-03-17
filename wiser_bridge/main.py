@@ -8,7 +8,7 @@ import socket
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import requests
 
@@ -18,6 +18,8 @@ from protocol import Device, WiserHub
 _LOGGER = logging.getLogger(__name__)
 POLL_INTERVAL_S = 5
 HEARTBEAT_INTERVAL_S = 60
+HUB_RETRY_INTERVAL_S = 30
+MQTT_RETRY_INTERVAL_S = 15
 STATE_CACHE_PATH = "/data/state_cache.json"
 
 
@@ -59,10 +61,16 @@ class BridgeApp:
             username=str(config.get("mqtt_user") or "") or None,
             password=str(config.get("mqtt_password") or "") or None,
         )
-        hub_ip = resolve_hub_ip(str(config.get("wiser_hub_ip") or ""))
-        self.hub = WiserHub(hub_ip)
+        self.hub_config = str(config.get("wiser_hub_ip") or "auto")
+        self.hub: Optional[WiserHub] = None
+        self.last_hub_attempt = 0.0
+
+        self.relay_name_prefix = str(config.get("relay_name_prefix") or "Wiser Relay").strip() or "Wiser Relay"
+        self.manual_device_ids = parse_manual_device_ids(str(config.get("relay_ids") or ""))
         self.cache = StateCache(STATE_CACHE_PATH)
         self.devices: List[Device] = []
+        self.mqtt_connected = False
+        self.last_mqtt_attempt = 0.0
 
         signal.signal(signal.SIGTERM, self.stop)
         signal.signal(signal.SIGINT, self.stop)
@@ -77,6 +85,11 @@ class BridgeApp:
         last_heartbeat = 0.0
         while self.running:
             now = time.time()
+            if not self._ensure_mqtt_connected(force=False):
+                time.sleep(POLL_INTERVAL_S)
+                continue
+
+            self._ensure_hub_connected()
             self._poll_and_publish_states()
 
             if now - last_heartbeat >= HEARTBEAT_INTERVAL_S:
@@ -88,12 +101,20 @@ class BridgeApp:
         self.mqtt.disconnect()
 
     def _bootstrap(self) -> None:
-        self.mqtt.connect()
         self.mqtt.set_command_callback(self._handle_command)
 
-        self.devices = self.hub.discover()
+        if not self._ensure_mqtt_connected(force=True):
+            _LOGGER.warning("MQTT not reachable on startup; running with background retry")
+
+        self.devices = self._build_manual_devices()
+
+        if self._ensure_hub_connected(force=True):
+            discovered = self.hub.discover() if self.hub else []
+            self._merge_devices(discovered)
+
         if not self.devices:
-            raise RuntimeError("No supported switch/relay devices discovered from Wiser hub")
+            self.devices = self._default_devices()
+            _LOGGER.warning("No devices discovered; using default relay placeholders")
 
         for device in self.devices:
             self.mqtt.publish_discovery(device.id, device.name)
@@ -105,7 +126,11 @@ class BridgeApp:
                 self.mqtt.publish_state(device.id, cached_states[device.id])
 
     def _handle_command(self, device_id: str, payload: str) -> None:
-        ok = self.hub.send_command(device_id, payload)
+        if not self.hub and not self._ensure_hub_connected(force=True):
+            _LOGGER.warning("Hub not connected; cannot send command for %s", device_id)
+            return
+
+        ok = self.hub.send_command(device_id, payload) if self.hub else False
         if not ok:
             _LOGGER.warning("Command failed for %s with payload=%s", device_id, payload)
             return
@@ -114,6 +139,9 @@ class BridgeApp:
         self.cache.save({device_id: payload})
 
     def _poll_and_publish_states(self) -> None:
+        if not self.hub:
+            return
+
         states = self.hub.poll_states()
         if not states:
             return
@@ -135,6 +163,82 @@ class BridgeApp:
         for device in self.devices:
             self.mqtt.publish_availability(device.id, True)
 
+    def _ensure_mqtt_connected(self, force: bool = False) -> bool:
+        now = time.time()
+        self.mqtt_connected = self.mqtt.is_connected()
+        if self.mqtt_connected:
+            return True
+
+        if not force and now - self.last_mqtt_attempt < MQTT_RETRY_INTERVAL_S:
+            return False
+
+        self.last_mqtt_attempt = now
+        try:
+            self.mqtt.connect()
+            self.mqtt_connected = True
+            _LOGGER.info("MQTT connection established")
+            return True
+        except Exception as exc:
+            _LOGGER.warning("MQTT unavailable (%s). Retrying in %ss", exc, MQTT_RETRY_INTERVAL_S)
+            self.mqtt_connected = False
+            return False
+
+    def _ensure_hub_connected(self, force: bool = False) -> bool:
+        now = time.time()
+        if self.hub:
+            return True
+
+        if not force and now - self.last_hub_attempt < HUB_RETRY_INTERVAL_S:
+            return False
+
+        self.last_hub_attempt = now
+        try:
+            hub_ip = resolve_hub_ip(self.hub_config)
+            self.hub = WiserHub(hub_ip)
+            _LOGGER.info("Connected to Wiser hub at %s", hub_ip)
+
+            discovered = self.hub.discover()
+            if discovered:
+                before = {d.id for d in self.devices}
+                self._merge_devices(discovered)
+                after = {d.id for d in self.devices}
+                new_ids = after - before
+                for device in self.devices:
+                    if device.id in new_ids:
+                        self.mqtt.publish_discovery(device.id, device.name)
+                        self.mqtt.publish_availability(device.id, True)
+            return True
+        except Exception as exc:
+            _LOGGER.warning("Wiser hub unavailable (%s). Retrying in %ss", exc, HUB_RETRY_INTERVAL_S)
+            self.hub = None
+            return False
+
+    def _merge_devices(self, discovered: List[Device]) -> None:
+        known = {d.id for d in self.devices}
+        for device in discovered:
+            if device.id not in known:
+                self.devices.append(device)
+                known.add(device.id)
+
+    def _build_manual_devices(self) -> List[Device]:
+        devices: List[Device] = []
+        for idx, device_id in enumerate(self.manual_device_ids, start=1):
+            devices.append(
+                Device(
+                    id=device_id,
+                    type="switch",
+                    state="OFF",
+                    name=f"{self.relay_name_prefix} {idx}",
+                )
+            )
+        return devices
+
+    def _default_devices(self) -> List[Device]:
+        return [
+            Device(id=f"relay{i}", type="switch", state="OFF", name=f"{self.relay_name_prefix} {i}")
+            for i in range(1, 5)
+        ]
+
 
 def load_config(path: str) -> Dict[str, object]:
     with open(path, "r", encoding="utf-8") as config_file:
@@ -145,7 +249,45 @@ def load_config(path: str) -> Dict[str, object]:
     if missing:
         raise ValueError(f"Missing required configuration keys: {', '.join(missing)}")
 
+    mqtt_host, mqtt_port = normalize_mqtt_target(
+        str(config.get("mqtt_host") or "").strip(),
+        int(config.get("mqtt_port") or 1883),
+    )
+    config["mqtt_host"] = mqtt_host
+    config["mqtt_port"] = mqtt_port
+
     return config
+
+
+def normalize_mqtt_target(host: str, port: int) -> tuple[str, int]:
+    clean_host = host.strip()
+    clean_port = int(port)
+
+    if not clean_host:
+        return clean_host, clean_port
+
+    # Accept common user input format: "host:1883".
+    if clean_host.count(":") == 1 and "]" not in clean_host:
+        host_part, port_part = clean_host.rsplit(":", 1)
+        if port_part.isdigit():
+            clean_host = host_part.strip()
+            clean_port = int(port_part)
+
+    return clean_host, clean_port
+
+
+def parse_manual_device_ids(raw: str) -> List[str]:
+    if not raw.strip():
+        return [f"relay{i}" for i in range(1, 5)]
+
+    parsed: List[str] = []
+    for token in raw.split(","):
+        clean = token.strip()
+        if not clean:
+            continue
+        parsed.append(clean)
+
+    return parsed or [f"relay{i}" for i in range(1, 5)]
 
 
 def resolve_hub_ip(config_value: str) -> str:

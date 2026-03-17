@@ -58,6 +58,9 @@ class MQTTClient:
         self.client.loop_stop()
         self.client.disconnect()
 
+    def is_connected(self) -> bool:
+        return bool(self.client.is_connected())
+
     def set_command_callback(self, callback: Callable[[str, str], None]) -> None:
         self.command_callback = callback
 
