@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import re
 import time
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
@@ -71,6 +72,7 @@ class WiserHub:
                 _LOGGER.info("Discovered %s devices from %s", len(devices), endpoint)
                 return devices
 
+        self._probe_metadata_endpoints()
         _LOGGER.warning("No devices discovered from Wiser hub across known endpoints")
         return []
 
@@ -261,6 +263,54 @@ class WiserHub:
                 _LOGGER.debug("GET %s failed: %s", url, exc)
                 continue
         return None
+
+    def _probe_metadata_endpoints(self) -> None:
+        probe_paths = [
+            "/",
+            "/index.html",
+            "/app",
+            "/api",
+            "/api/",
+            "/version",
+            "/manifest.json",
+            "/swagger",
+            "/swagger-ui",
+            "/openapi.json",
+        ]
+
+        for endpoint in probe_paths:
+            for base_url in self.base_urls:
+                url = f"{base_url}{endpoint}"
+                try:
+                    response = self._session.get(url, timeout=self.timeout_s, verify=self.verify_tls)
+                    content_type = response.headers.get("Content-Type", "")
+                    title = self._extract_html_title(response.text)
+                    snippet = self._summarize_text(response.text)
+                    location = response.headers.get("Location", "")
+                    _LOGGER.info(
+                        "Metadata probe %s status=%s content_type=%s location=%s title=%s body=%s",
+                        url,
+                        response.status_code,
+                        content_type,
+                        location,
+                        title,
+                        snippet,
+                    )
+                except Exception as exc:
+                    if self.debug_discovery:
+                        _LOGGER.info("Metadata probe failed %s error=%s", url, exc)
+
+    def _extract_html_title(self, text: str) -> str:
+        match = re.search(r"<title>(.*?)</title>", text, flags=re.IGNORECASE | re.DOTALL)
+        if not match:
+            return ""
+        return " ".join(match.group(1).split())[:120]
+
+    def _summarize_text(self, text: str) -> str:
+        collapsed = " ".join(text.split())
+        if len(collapsed) > 240:
+            return collapsed[:240] + "..."
+        return collapsed
 
     def _post_json(self, endpoint: str, payload: Dict[str, Any]) -> bool:
         for base_url in self.base_urls:

@@ -20,6 +20,7 @@ POLL_INTERVAL_S = 5
 HEARTBEAT_INTERVAL_S = 60
 HUB_RETRY_INTERVAL_S = 30
 MQTT_RETRY_INTERVAL_S = 15
+DISCOVERY_RETRY_INTERVAL_S = 60
 STATE_CACHE_PATH = "/data/state_cache.json"
 
 
@@ -67,6 +68,8 @@ class BridgeApp:
         self.verify_hub_tls = bool(config.get("verify_hub_tls") or False)
         self.hub: Optional[WiserHub] = None
         self.last_hub_attempt = 0.0
+        self.last_discovery_attempt = 0.0
+        self.has_real_hub_devices = False
 
         self.relay_name_prefix = str(config.get("relay_name_prefix") or "Wiser Relay").strip() or "Wiser Relay"
         self.manual_device_ids = parse_manual_device_ids(str(config.get("relay_ids") or ""))
@@ -140,7 +143,7 @@ class BridgeApp:
         self.cache.save({device_id: payload})
 
     def _poll_and_publish_states(self) -> None:
-        if not self.hub:
+        if not self.hub or not self.has_real_hub_devices:
             return
 
         states = self.hub.poll_states()
@@ -187,6 +190,8 @@ class BridgeApp:
     def _ensure_hub_connected(self, force: bool = False) -> bool:
         now = time.time()
         if self.hub:
+            if force or now - self.last_discovery_attempt >= DISCOVERY_RETRY_INTERVAL_S:
+                self._refresh_discovery(now)
             return True
 
         if not force and now - self.last_hub_attempt < HUB_RETRY_INTERVAL_S:
@@ -203,21 +208,32 @@ class BridgeApp:
             )
             _LOGGER.info("Connected to Wiser hub at %s", hub_ip)
 
-            discovered = self.hub.discover()
-            if discovered:
-                before = {d.id for d in self.devices}
-                self._merge_devices(discovered)
-                after = {d.id for d in self.devices}
-                new_ids = after - before
-                for device in self.devices:
-                    if device.id in new_ids:
-                        self.mqtt.publish_discovery(device.id, device.name)
-                        self.mqtt.publish_availability(device.id, True)
+            self._refresh_discovery(now)
             return True
         except Exception as exc:
             _LOGGER.warning("Wiser hub unavailable (%s). Retrying in %ss", exc, HUB_RETRY_INTERVAL_S)
             self.hub = None
+            self.has_real_hub_devices = False
             return False
+
+    def _refresh_discovery(self, now: float) -> None:
+        if not self.hub:
+            return
+
+        self.last_discovery_attempt = now
+        discovered = self.hub.discover()
+        self.has_real_hub_devices = bool(discovered)
+        if not discovered:
+            return
+
+        before = {d.id for d in self.devices}
+        self._merge_devices(discovered)
+        after = {d.id for d in self.devices}
+        new_ids = after - before
+        for device in self.devices:
+            if device.id in new_ids:
+                self.mqtt.publish_discovery(device.id, device.name)
+                self.mqtt.publish_availability(device.id, True)
 
     def _merge_devices(self, discovered: List[Device]) -> None:
         known = {d.id for d in self.devices}
